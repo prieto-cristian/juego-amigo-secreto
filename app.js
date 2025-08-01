@@ -1,18 +1,16 @@
-// El principal objetivo de este desafío es fortalecer tus habilidades en lógica de programación. Aquí deberás desarrollar la lógica para resolver el problema.
 let listaAmigos = [];
 
 function agregarAmigo() {
     // Capturar el valor ingresado en el campo de texto
     // Aniadir a la lista
     let campoTexto = document.getElementById('amigo');
-    let titulo = document.querySelector('.section-title');
     if (esCampoVacio(campoTexto.value)) {
-        titulo.innerHTML = "Por favor, inserte un nombre.";
+        asignarTexto('.section-title', "Por favor, inserte un nombre.");
     } else {
         listaAmigos.push(campoTexto.value);
-        titulo.innerHTML = "Agregado correctamente";
+        asignarTexto('.section-title', "Agregado correctamente");
         campoTexto.value = "";
-        limpiarListaAmigosVisibles();
+        limpiarContenido('#listaAmigos');
         mostrarAmigos();
     }
     console.log(listaAmigos);
@@ -24,8 +22,8 @@ function esCampoVacio(textoIngresado) {
     }
     return false
 }
-function limpiarListaAmigosVisibles() {
-    document.getElementById('listaAmigos').innerHTML = "";
+function limpiarContenido(selector) {
+    document.querySelector(selector).innerHTML = "";
 }
 // Funcionalidad para listar listaAmigos. Debe recorrer la lista y armar los elementos HTML para mostrarlos en pantalla.
 function mostrarAmigos() {
@@ -44,11 +42,8 @@ function hayAmigos() {
     }
     return false;
 }
-function limpiarResultado() {
-    document.querySelector('#resultado').innerHTML = "";
-}
 function sortearAmigo() {
-    limpiarResultado();
+    limpiarContenido("#resultado");
     if (hayAmigos()) {
         let numeroSorteado = Math.floor(Math.random() * listaAmigos.length);
         let elementoUl = document.querySelector('#resultado');
@@ -56,7 +51,11 @@ function sortearAmigo() {
         resultado.innerHTML = listaAmigos[numeroSorteado];
         elementoUl.appendChild(resultado);
     } else {
-        let titulo = document.querySelector('.section-title');
-        titulo.innerHTML = "Debes agregar por lo menos 1 amigo.";
+        asignarTexto('.section-title', "Debes agregar por lo menos 1 amigo.")
     }
+}
+
+// Funcion para asignar texto
+function asignarTexto(nombreElemento, texto) {
+    document.querySelector(nombreElemento).innerHTML = texto;
 }
