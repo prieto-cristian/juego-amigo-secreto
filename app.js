@@ -6,9 +6,9 @@ function agregarAmigo() {
     // Aniadir a la lista
     let campoTexto = document.getElementById('amigo');
     let titulo = document.querySelector('.section-title');
-    if(esCampoVacio(campoTexto.value)){
+    if (esCampoVacio(campoTexto.value)) {
         titulo.innerHTML = "Por favor, inserte un nombre.";
-    }else{
+    } else {
         listaAmigos.push(campoTexto.value);
         titulo.innerHTML = "Agregado correctamente";
         campoTexto.value = "";
@@ -19,7 +19,7 @@ function agregarAmigo() {
 }
 
 function esCampoVacio(textoIngresado) {
-    if(textoIngresado === ''){
+    if (textoIngresado === '') {
         return true;
     }
     return false
@@ -35,4 +35,28 @@ function mostrarAmigos() {
         elementoLi.textContent = element;
         lista.appendChild(elementoLi);
     });
+}
+
+// Funcionalidad para sortear un amigo.
+function hayAmigos() {
+    if (listaAmigos.length > 0) {
+        return true;
+    }
+    return false;
+}
+function limpiarResultado() {
+    document.querySelector('#resultado').innerHTML = "";
+}
+function sortearAmigo() {
+    limpiarResultado();
+    if (hayAmigos()) {
+        let numeroSorteado = Math.floor(Math.random() * listaAmigos.length);
+        let elementoUl = document.querySelector('#resultado');
+        let resultado = document.createElement('li');
+        resultado.innerHTML = listaAmigos[numeroSorteado];
+        elementoUl.appendChild(resultado);
+    } else {
+        let titulo = document.querySelector('.section-title');
+        titulo.innerHTML = "Debes agregar por lo menos 1 amigo.";
+    }
 }
