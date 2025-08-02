@@ -18,12 +18,14 @@ function agregarAmigo() {
             listaAmigos.push(campoTexto.value);
             campoTexto.value = "";
             // actualizar el numero de participantes
-            document.getElementById('textoNumeroParticipantes').innerHTML = `${mensajeNumeroParticipantes} ${listaAmigos.length}`;
+            actualizarLaCantidadDeParticipantes();
             limpiarContenido('#listaAmigos');
             mostrarAmigos();
         }
     }
-    console.log(listaAmigos);
+}
+function actualizarLaCantidadDeParticipantes(){
+    document.getElementById('textoNumeroParticipantes').innerHTML = `${mensajeNumeroParticipantes} ${listaAmigos.length}`;
 }
 function crearAlerta(mensaje) {
     let alerta = document.querySelector("#posiblesErrores");
@@ -42,17 +44,23 @@ function limpiarContenido(selector) {
 // Funcionalidad para listar listaAmigos. Debe recorrer la lista y armar los elementos HTML para mostrarlos en pantalla.
 function mostrarAmigos() {
     let lista = document.getElementById('listaAmigos');
-    listaAmigos.forEach(element => {
+    listaAmigos.forEach((element, index) => {
         let elementoLi = document.createElement('li');
-        elementoLi.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'bg-info-subtle');
+        elementoLi.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'bg-info-subtle', `participante-${index}`);
         elementoLi.textContent = element;
         let botonEliminar = document.createElement('button');
-        botonEliminar.classList.add('btn', 'btn-lg', 'btn-close');
+        botonEliminar.classList.add('btn', 'btn-lg', 'btn-close', `participante-boton-${index}`);
+        botonEliminar.addEventListener("click", function(){
+            const li = this.parentElement;
+            const indiceParticipante = listaAmigos.indexOf(li.textContent);
+            listaAmigos.splice(indiceParticipante, 1);
+            li.remove();
+            actualizarLaCantidadDeParticipantes();
+        });
         elementoLi.appendChild(botonEliminar);
         lista.appendChild(elementoLi);
     });
 }
-
 // Funcionalidad para sortear un amigo.
 function hayAmigos() {
     if (listaAmigos.length > 1) {
