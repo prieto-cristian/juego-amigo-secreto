@@ -1,5 +1,5 @@
 let listaAmigos = [];
-const listaEmojis = ['🫵​','🫶​','​🎁​','⭐​','🔥','💫​','👀​', '🥳​'];
+const listaEmojis = ['🫵​', '🫶​', '​🎁​', '⭐​', '🔥', '💫​', '👀​', '🥳​'];
 const mensajeUltimoGanador = "Ultimo ganador:";
 const mensajeNumeroParticipantes = "Nro de participantes:"
 
@@ -8,24 +8,33 @@ function agregarAmigo() {
     // Aniadir a la lista
     let campoTexto = document.getElementById('amigo');
     if (esCampoVacio(campoTexto.value)) {
-        asignarTexto('.section-title', "Por favor, inserte un nombre.");
+        crearAlerta("El campo esta vacio, por favor rellene el campo.");
     } else {
-        listaAmigos.push(campoTexto.value);
-        asignarTexto('.section-title', "Agregado correctamente");
-        campoTexto.value = "";
-        // actualizar el numero de participantes
-        document.getElementById('textoNumeroParticipantes').innerHTML = `${mensajeNumeroParticipantes} ${listaAmigos.length}`;
-        limpiarContenido('#listaAmigos');
-        mostrarAmigos();
+        if (esRepetido(campoTexto.value)) {
+            crearAlerta("No se permiten participantes repetidos");
+        } else {
+            let alerta = document.querySelector("#posiblesErrores");
+            alerta.classList.add('d-none');
+            listaAmigos.push(campoTexto.value);
+            campoTexto.value = "";
+            // actualizar el numero de participantes
+            document.getElementById('textoNumeroParticipantes').innerHTML = `${mensajeNumeroParticipantes} ${listaAmigos.length}`;
+            limpiarContenido('#listaAmigos');
+            mostrarAmigos();
+        }
     }
     console.log(listaAmigos);
 }
-
+function crearAlerta(mensaje) {
+    let alerta = document.querySelector("#posiblesErrores");
+    alerta.classList.remove('d-none');
+    alerta.textContent = mensaje;
+}
+function esRepetido(textoIngresado) {
+    return listaAmigos.includes(textoIngresado);
+}
 function esCampoVacio(textoIngresado) {
-    if (textoIngresado === '') {
-        return true;
-    }
-    return false
+    return textoIngresado === '';
 }
 function limpiarContenido(selector) {
     document.querySelector(selector).innerHTML = "";
@@ -35,10 +44,10 @@ function mostrarAmigos() {
     let lista = document.getElementById('listaAmigos');
     listaAmigos.forEach(element => {
         let elementoLi = document.createElement('li');
-        elementoLi.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'bg-danger-subtle');
+        elementoLi.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'bg-info-subtle');
         elementoLi.textContent = element;
         let botonEliminar = document.createElement('button');
-        botonEliminar.classList.add('btn','btn-lg', 'btn-close');
+        botonEliminar.classList.add('btn', 'btn-lg', 'btn-close');
         elementoLi.appendChild(botonEliminar);
         lista.appendChild(elementoLi);
     });
@@ -46,7 +55,7 @@ function mostrarAmigos() {
 
 // Funcionalidad para sortear un amigo.
 function hayAmigos() {
-    if (listaAmigos.length > 0) {
+    if (listaAmigos.length > 1) {
         return true;
     }
     return false;
@@ -64,7 +73,7 @@ function sortearAmigo() {
         // Colocar el ultimo ganador en la etiqueta p
         document.querySelector('#textoUltimoGanador').innerHTML = `${mensajeUltimoGanador} ${listaAmigos[numeroSorteado]}`;
     } else {
-        asignarTexto('.section-title', "Debes agregar por lo menos 1 amigo.")
+        crearAlerta("No hay suficientes participantes para realizar el sorteo. Se necesitan al menos 2 participantes");
     }
 }
 
