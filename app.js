@@ -1,5 +1,6 @@
 let listaAmigos = [];
-
+const listaEmojis = ['🫵​','🫶​','​🎁​','⭐​','🔥','💫​','👀​', '🥳​'];
+const mensajeUltimoGanador = "Ultimo ganador:";
 function agregarAmigo() {
     // Capturar el valor ingresado en el campo de texto
     // Aniadir a la lista
@@ -50,10 +51,14 @@ function sortearAmigo() {
     limpiarContenido("#resultado");
     if (hayAmigos()) {
         let numeroSorteado = Math.floor(Math.random() * listaAmigos.length);
+        let emojiAleatorio = Math.floor(Math.random() * listaEmojis.length);
         let elementoUl = document.querySelector('#resultado');
         let resultado = document.createElement('li');
-        resultado.innerHTML = listaAmigos[numeroSorteado];
+        resultado.classList.add('fs-1', 'd-flex', 'justify-content-center', 'align-items-center');
+        resultado.innerHTML = `${listaEmojis[emojiAleatorio]} ${listaAmigos[numeroSorteado]} ${listaEmojis[emojiAleatorio]}`;
         elementoUl.appendChild(resultado);
+        // Colocar el ultimo ganador en la etiqueta p
+        document.querySelector('#textoUltimoGanador').innerHTML = `${mensajeUltimoGanador} ${listaAmigos[numeroSorteado]}`;
     } else {
         asignarTexto('.section-title', "Debes agregar por lo menos 1 amigo.")
     }
