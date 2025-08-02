@@ -12,3 +12,7 @@ h1 {
 .boton-hover:hover .borrar{
     filter: invert();
 }
+
+#resultado > li{
+    height: 70px;
+}
