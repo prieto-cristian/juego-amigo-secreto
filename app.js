@@ -1,6 +1,8 @@
 let listaAmigos = [];
 const listaEmojis = ['🫵​','🫶​','​🎁​','⭐​','🔥','💫​','👀​', '🥳​'];
 const mensajeUltimoGanador = "Ultimo ganador:";
+const mensajeNumeroParticipantes = "Nro de participantes:"
+
 function agregarAmigo() {
     // Capturar el valor ingresado en el campo de texto
     // Aniadir a la lista
@@ -11,6 +13,8 @@ function agregarAmigo() {
         listaAmigos.push(campoTexto.value);
         asignarTexto('.section-title', "Agregado correctamente");
         campoTexto.value = "";
+        // actualizar el numero de participantes
+        document.getElementById('textoNumeroParticipantes').innerHTML = `${mensajeNumeroParticipantes} ${listaAmigos.length}`;
         limpiarContenido('#listaAmigos');
         mostrarAmigos();
     }
