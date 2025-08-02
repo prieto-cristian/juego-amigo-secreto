@@ -30,7 +30,11 @@ function mostrarAmigos() {
     let lista = document.getElementById('listaAmigos');
     listaAmigos.forEach(element => {
         let elementoLi = document.createElement('li');
+        elementoLi.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'bg-danger-subtle');
         elementoLi.textContent = element;
+        let botonEliminar = document.createElement('button');
+        botonEliminar.classList.add('btn','btn-lg', 'btn-close');
+        elementoLi.appendChild(botonEliminar);
         lista.appendChild(elementoLi);
     });
 }
